@@ -2,7 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 require_once '../themes/remote_params.php';
 
-function send_callback_request($data) {
+function iceberg_crm_callback_send_callback_request($data) {
     global $wpdb;
     // Set the endpoint URL for sending the request
     $url = HOST.':'.PORT.'/sendForm';
@@ -29,5 +29,5 @@ function send_callback_request($data) {
     return $response;
 }
 $_POST['identifier'] = parse_url(home_url())['host'];
-echo send_callback_request($_POST);
+echo iceberg_crm_callback_send_callback_request($_POST);
 ?>

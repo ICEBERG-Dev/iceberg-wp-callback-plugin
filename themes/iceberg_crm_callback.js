@@ -1,37 +1,36 @@
 
-function extractNumbers(phone) {
+function iceberg_crm_callback_extractNumbers(phone) {
     return phone.replace(/\D/g, '');
   }
-  
-  
-  function iceberg_crm_callbac_sendFormData() {
+
+
+  function iceberg_crm_callback_sendFormData() {
     // Get form values
     var name = document.getElementById("callbackNameClient").value;
     var phone = document.getElementById("callbackPhoneClient").value;
     var message = document.getElementById("callbackMessageClient").value;
-  
-    if (!(+extractNumbers(phone)>0)){
+
+    if (!(+iceberg_crm_callback_extractNumbers(phone)>0)){
       document.getElementById("callbackPhoneClient").parentElement.parentElement.style = "border: solid 0.5px red !important"
       return
     }else{
       document.getElementById("callbackPhoneClient").parentElement.parentElement.style = "border: none !important"
     }
-  
+
     if (message === ""){
       document.getElementById("callbackMessageClient").parentElement.parentElement.style = "border: solid 0.5px red !important"
       return
     }else{
       document.getElementById("callbackMessageClient").parentElement.parentElement.style = "border: none !important"
     }
-  
+
     // Combine form values into a JSON object
     var formData = {
         "name": name,
-        "phone": +extractNumbers(phone),
+        "phone": +iceberg_crm_callback_extractNumbers(phone),
         "comment": message
     };
     document.querySelector('.callback-widget-btn').disabled = true
-    document.querySelector('.callback-widget-btn').innerText = "Отправляем..."
     // Send data to plugin's PHP file using AJAX
     jQuery.ajax({
         url: "/wp-content/plugins/iceberg-crm-callback/admin/iceberg_crm_callback_send_form.php",
@@ -40,14 +39,12 @@ function extractNumbers(phone) {
         success: function(response) {
           document.querySelector('.callback-widget-btn').removeAttribute("disabled")
           document.querySelector('.callback-widget-btn').innerText = "Отправлено!"
-          setTimeout(() => {
               document.getElementById("callbackNameClient").value = "";
-              document.getElementById("callbackMailClient").value = "";
+              // document.getElementById("callbackMailClient").value = "";
               document.getElementById("callbackPhoneClient").value = "";
               document.getElementById("callbackMessageClient").value = "";
-              toggleModalCallbackWidget('callbackModal', 'callbackModalBG')
-          }, 300)
-          
+            iceberg_crm_callback_toggleModalCallbackWidget('callbackModal', 'callbackModalBG')
+
             // Handle response from the server
             if (response === "OK") {
                 console.log("Form data was sent successfully!");
@@ -57,21 +54,21 @@ function extractNumbers(phone) {
         }
     });
   }
-  
-  
+
+
   // -----------
-  
-  function toggleModalCallbackWidget(modal, bg) {
+
+  function iceberg_crm_callback_toggleModalCallbackWidget(modal, bg) {
     document.querySelector(`#${modal}`).classList.toggle('active')
     document.querySelector(`#${bg}`).classList.toggle('active')
-  
+
   }
-  
-  function nameManagerGenerate() {
+
+  function iceberg_crm_callback_nameManagerGenerate() {
     let min = 2
     let max = 10
     let random = Math.floor(min - 0.5 + Math.random() * (max - min + 1))
-  
+
     let names = {
         "1": "Елена",
         "2": "Татьяна",
@@ -84,14 +81,14 @@ function extractNumbers(phone) {
         "9": "Виктория",
         "10": "София",
     }
-  
+
     return names[random]
   }
-  
-  function phoneMaskOnLoad(){
+
+  function iceberg_crm_callback_phoneMaskOnLoad(){
       let input = document.querySelector('#callbackPhoneClient')
-  
-      const prefixNumber = (str) => {
+
+      const iceberg_crm_callback_prefixNumber = (str) => {
           if (str === "7") {
               return "7 ("
           }
@@ -103,22 +100,22 @@ function extractNumbers(phone) {
           }
           return "7 ("
       }
-  
+
       input.addEventListener("input", (e) => {
           const value = input.value.replace(/\D+/g, "")
           const numberLength = 11
-  
+
           let result
           if (input.value.includes("+8") || input.value[0] === "8") {
               result = ""
           } else {
               result = "+"
           }
-  
+
           for (let i = 0; i < value.length && i < numberLength; i++) {
               switch (i) {
                   case 0:
-                      result += prefixNumber(value[i])
+                      result += iceberg_crm_callback_prefixNumber(value[i])
                       continue;
                   case 4:
                       result += ") "
@@ -136,15 +133,15 @@ function extractNumbers(phone) {
           }
           input.value = result
       })
-  
-      document.querySelector('#callbackManagerName').innerHTML = nameManagerGenerate()
-  
+
+      document.querySelector('#callbackManagerName').innerHTML = iceberg_crm_callback_nameManagerGenerate()
+
   }
-  
-  function nameManOnLoad(){
+
+  function iceberg_crm_callback_nameManOnLoad(){
     let input = document.querySelector('#callbackPhoneClient')
-  
-    const prefixNumber = (str) => {
+
+    const iceberg_crm_callback_prefixNumber = (str) => {
         if (str === "7") {
             return "7 ("
         }
@@ -156,22 +153,22 @@ function extractNumbers(phone) {
         }
         return "7 ("
     }
-  
+
     input.addEventListener("input", (e) => {
         const value = input.value.replace(/\D+/g, "")
         const numberLength = 11
-  
+
         let result
         if (input.value.includes("+8") || input.value[0] === "8") {
             result = ""
         } else {
             result = "+"
         }
-  
+
         for (let i = 0; i < value.length && i < numberLength; i++) {
             switch (i) {
                 case 0:
-                    result += prefixNumber(value[i])
+                    result += iceberg_crm_callback_prefixNumber(value[i])
                     continue;
                 case 4:
                     result += ") "
@@ -189,11 +186,11 @@ function extractNumbers(phone) {
         }
         input.value = result
     })
-  
-    document.querySelector('#callbackManagerName').innerHTML = nameManagerGenerate()
+
+    document.querySelector('#callbackManagerName').innerHTML = iceberg_crm_callback_nameManagerGenerate()
   }
-  
-  function iceberg_render_qr_for_link(){
+
+  function iceberg_crm_callback_iceberg_render_qr_for_link(){
   try {
       var qrcode = new QRCode("gen-qr-link-iceberg-crm-callback", {
           text: document.getElementById('gen-qr-link-iceberg-crm-callback-source').value,
@@ -204,20 +201,20 @@ function extractNumbers(phone) {
           correctLevel : QRCode.CorrectLevel.H
       });
   } catch (e){
-  
+
   }
   }
 
-  function setup_custom_btns(){
+  function iceberg_crm_callback_setup_custom_btns(){
     document.querySelectorAll('#initIcebergCallBackWidget').forEach(element => {
-        element.setAttribute('onclick', "toggleModalCallbackWidget('callbackModal', 'callbackModalBG')");
+        element.setAttribute('onclick', "iceberg_crm_callback_toggleModalCallbackWidget('callbackModal', 'callbackModalBG')");
     })
   }
-  
-  
+
+
   jQuery(document).ready(function($){
-      phoneMaskOnLoad()
-      nameManOnLoad()
-      iceberg_render_qr_for_link()
-      setup_custom_btns()
+      iceberg_crm_callback_phoneMaskOnLoad()
+      iceberg_crm_callback_nameManOnLoad()
+      iceberg_crm_callback_iceberg_render_qr_for_link()
+      iceberg_crm_callback_setup_custom_btns()
   })

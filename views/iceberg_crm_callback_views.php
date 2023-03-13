@@ -33,8 +33,8 @@ function iceberg_crm_callback_settings_page_callback() {
         <div style="padding: 5px 25px;background-color: rgb(232, 232, 232);border-radius: 10px;margin: 10px 0px;">
             <h2>Set this ID to your buttons to call widget!</h2>
             <div style="display: flex; flex-direction: row;">
-                <pre style="margin-right: 10px">[ initIcebergCallBackWidget ]</pre>
-            </div>           
+                <pre style="margin-right: 10px">"initIcebergCallBackWidget"</pre>
+            </div>
         </div>
         <div style="padding: 5px 25px;background-color: rgb(232, 232, 232);border-radius: 10px;margin: 10px 0px;">
             <h2>Also you can set your QR to contact!</h2>
@@ -46,7 +46,7 @@ function iceberg_crm_callback_settings_page_callback() {
             <div style="display: flex; flex-direction: row;">
                 <span style="margin-right: 10px">QR</span>
                 <input name="link" class="" style="box-shadow: 0 0 0 transparent;border-radius: 4px;border: 1px solid #8c8f94;background-color: #fff;color: #2c3338;" value="<?= get_iceberg_crm_callback_link()?>">
-            </div>    
+            </div>
                 <?php
                 submit_button();
                 ?>
@@ -55,21 +55,21 @@ function iceberg_crm_callback_settings_page_callback() {
     </div>
     <?php
 }
-function check_token_exists_callback() {
+function iceberg_crm_callback_check_token_exists_callback() {
     global $wpdb;
-    
+
     // Check if table exists
     $table_name = $wpdb->prefix . "iceberg_crm_callback_tokens";
     if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
       return false;
     }
-    
+
     // Check if token field exists and is not empty
     $token = $wpdb->get_var("SELECT token FROM $table_name LIMIT 1");
     if(empty($token)) {
       return false;
     }
-    
+
     return true;
 }
 function iceberg_crm_callback_enqueue_scripts() {
@@ -79,13 +79,13 @@ function iceberg_crm_callback_enqueue_scripts() {
 }
 function iceberg_crm_callback_widget() {
 
-    if (check_token_exists_callback()){
+    if (iceberg_crm_callback_check_token_exists_callback()){
         $source_link = get_iceberg_crm_callback_link();
 
         $domain = site_url();
 
         echo '
-        <div class="callback-widget-block" onclick="toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')">
+        <div class="callback-widget-block" onclick="iceberg_crm_callback_toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')">
             <div class="callback-widget-svg">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.66667 20C7.11111 20 7.50667 19.84 7.85333 19.52C8.20111 19.2011 8.40278 18.8056 8.45834 18.3333C8.81945 15.75 9.90945 13.5483 11.7283 11.7283C13.5483 9.90944 15.75 8.81944 18.3333 8.45833C18.8056 8.40278 19.2011 8.20833 19.52 7.875C19.84 7.54167 20 7.13889 20 6.66667C20 6.19444 19.8333 5.79833 19.5 5.47833C19.1667 5.15944 18.7778 5.02778 18.3333 5.08333C14.8333 5.47222 11.8472 6.90278 9.375 9.375C6.90278 11.8472 5.47222 14.8333 5.08333 18.3333C5.02778 18.7778 5.16 19.1667 5.48 19.5C5.79889 19.8333 6.19444 20 6.66667 20ZM13.625 20C13.9861 20 14.3056 19.875 14.5833 19.625C14.8611 19.375 15.0694 19.0417 15.2083 18.625C15.4306 17.8194 15.8539 17.1039 16.4783 16.4783C17.1039 15.8539 17.8194 15.4306 18.625 15.2083C19.0417 15.0694 19.375 14.8611 19.625 14.5833C19.875 14.3056 20 13.9722 20 13.5833C20 13.0278 19.8056 12.5761 19.4167 12.2283C19.0278 11.8817 18.5972 11.7639 18.125 11.875C16.5694 12.2361 15.2289 12.9789 14.1033 14.1033C12.9789 15.2289 12.2361 16.5694 11.875 18.125C11.7639 18.5972 11.8889 19.0278 12.25 19.4167C12.6111 19.8056 13.0694 20 13.625 20ZM6.75 35C10.3333 35 13.8261 34.2011 17.2283 32.6033C20.6317 31.0067 23.6456 28.8956 26.27 26.27C28.8956 23.6456 31.0067 20.6317 32.6033 17.2283C34.2011 13.8261 35 10.3333 35 6.75C35 6.25 34.8333 5.83333 34.5 5.5C34.1667 5.16667 33.75 5 33.25 5H26.5C26.1111 5 25.7639 5.125 25.4583 5.375C25.1528 5.625 24.9722 5.94444 24.9167 6.33333L23.8333 12.1667C23.7778 12.5556 23.7844 12.9094 23.8533 13.2283C23.9233 13.5483 24.0833 13.8333 24.3333 14.0833L28.3333 18.1667C27.1667 20.1667 25.7083 22.0417 23.9583 23.7917C22.2083 25.5417 20.2778 27.0556 18.1667 28.3333L14.25 24.4167C14 24.1667 13.6733 23.9789 13.27 23.8533C12.8678 23.7289 12.4722 23.6944 12.0833 23.75L6.33333 24.9167C5.94444 25 5.625 25.1872 5.375 25.4783C5.125 25.7706 5 26.1111 5 26.5V33.25C5 33.75 5.16667 34.1667 5.5 34.5C5.83333 34.8333 6.25 35 6.75 35Z" fill="white"/>
@@ -95,14 +95,14 @@ function iceberg_crm_callback_widget() {
 
         <!-- Modal -->
         
-        <div id="callbackModalBG" class="callback-widget-bg" onclick="toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')" style="visibility: hidden; opacity: 0;"></div>
+        <div id="callbackModalBG" class="callback-widget-bg" onclick="iceberg_crm_callback_toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')" style="visibility: hidden; opacity: 0;"></div>
         <div id="callbackModal" class="iceberg_crm_callback callback-widget-modal" style="visibility: hidden; opacity: 0;">
             <div class="callback-widget-container">
                 <div class="callback-widget-title">
                     <div class="callback-widget-text">
                         <span class="callback-widget-blue">Оставьте заявку</span> и мы перезвоним вам в течении <span class="callback-widget-blue">5 минут!</span>
                     </div>
-                    <svg onclick="toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg onclick="iceberg_crm_callback_toggleModalCallbackWidget(\'callbackModal\', \'callbackModalBG\')" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g opacity="0.5">
                             <path d="M24.4003 7.61363C24.2769 7.49003 24.1304 7.39196 23.9691 7.32505C23.8078 7.25815 23.6349 7.22371 23.4603 7.22371C23.2857 7.22371 23.1128 7.25815 22.9515 7.32505C22.7902 7.39196 22.6436 7.49003 22.5203 7.61363L16.0003 14.1203L9.4803 7.6003C9.35686 7.47686 9.21031 7.37894 9.04902 7.31213C8.88774 7.24532 8.71487 7.21094 8.5403 7.21094C8.36572 7.21094 8.19286 7.24532 8.03157 7.31213C7.87029 7.37894 7.72374 7.47686 7.6003 7.6003C7.47686 7.72374 7.37894 7.87029 7.31213 8.03157C7.24532 8.19286 7.21094 8.36572 7.21094 8.5403C7.21094 8.71487 7.24532 8.88774 7.31213 9.04902C7.37894 9.21031 7.47686 9.35686 7.6003 9.4803L14.1203 16.0003L7.6003 22.5203C7.47686 22.6437 7.37894 22.7903 7.31213 22.9516C7.24532 23.1129 7.21094 23.2857 7.21094 23.4603C7.21094 23.6349 7.24532 23.8077 7.31213 23.969C7.37894 24.1303 7.47686 24.2769 7.6003 24.4003C7.72374 24.5237 7.87029 24.6217 8.03157 24.6885C8.19286 24.7553 8.36572 24.7897 8.5403 24.7897C8.71487 24.7897 8.88774 24.7553 9.04902 24.6885C9.21031 24.6217 9.35686 24.5237 9.4803 24.4003L16.0003 17.8803L22.5203 24.4003C22.6437 24.5237 22.7903 24.6217 22.9516 24.6885C23.1129 24.7553 23.2857 24.7897 23.4603 24.7897C23.6349 24.7897 23.8077 24.7553 23.969 24.6885C24.1303 24.6217 24.2769 24.5237 24.4003 24.4003C24.5237 24.2769 24.6217 24.1303 24.6885 23.969C24.7553 23.8077 24.7897 23.6349 24.7897 23.4603C24.7897 23.2857 24.7553 23.1129 24.6885 22.9516C24.6217 22.7903 24.5237 22.6437 24.4003 22.5203L17.8803 16.0003L24.4003 9.4803C24.907 8.97363 24.907 8.1203 24.4003 7.61363Z" fill="#2E3538"/>
                         </g>
@@ -143,9 +143,9 @@ function iceberg_crm_callback_widget() {
                                 <textarea placeholder="Введите ваше сообщение" id="callbackMessageClient" required></textarea>
                             </div>
                         </div>
-                        <button class="callback-widget-btn" type="text" onclick="iceberg_crm_callbac_sendFormData()">Отправить</button>
+                        <button class="callback-widget-btn" type="text" onclick="iceberg_crm_callback_sendFormData()">Отправить</button>
                     </div>
-                    <div class="callback-widget-qr-title"> 
+                    <div class="callback-widget-qr-title" style="'.(($source_link == "") ? "display:none!important" : "").'"> 
                     <div style="position: relative !important">
                     <a class="callback-widget-btn-send" href="'.$source_link.'" target="_blank">Написать нам</a>
                     <div class="callback-widget-manager" style="font-weight: 500 !important; margin: 10px 0 0 0 !important; font-size: 18px !important;"><span>На WhatsApp</span><br><span>с телефона</span></div>
@@ -161,7 +161,7 @@ function iceberg_crm_callback_widget() {
                         <div id="gen-qr-link-iceberg-crm-callback"></div>
                     </div>
  
-                        ' : '' )    
+                        ' : '' )
                     .'
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 
 $link = $_POST['link'];
-function store_link_in_db($link) {
+function iceberg_crm_callback_store_link_in_db($link) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'iceberg_crm_callback_links';
 
@@ -15,7 +15,7 @@ function store_link_in_db($link) {
     );
 
 }
-store_link_in_db($link);
+iceberg_crm_callback_store_link_in_db($link);
 
 header('Location: ' . admin_url('options-general.php?page=iceberg_crm_callback'));
 exit;
