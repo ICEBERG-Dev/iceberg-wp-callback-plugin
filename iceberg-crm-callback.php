@@ -42,6 +42,7 @@ function iceberg_crm_callback_install() {
         dbDelta( $sql );
     }
 }
+
 function iceberg_crm_callback_uninstall() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'iceberg_crm_callback_tokens';
