@@ -1,4 +1,4 @@
 <?php
 // CONST HOST = "https://62.109.1.142";
-CONST HOST = "https://iceberg-crm.ru";
-CONST PORT = "2200";
+CONST ICEBERG_CRM_CALLBACK_HOST = "https://iceberg-crm.ru";
+CONST ICEBERG_CRM_CALLBACK_PORT = "2200";

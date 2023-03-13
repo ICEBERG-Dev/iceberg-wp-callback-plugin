@@ -28,7 +28,7 @@ function iceberg_crm_callback_handle_token_authentication_callback() {
 
 function iceberg_crm_callback_send_token_to_server_callback($token) {
     // URL of the endpoint to send the request to
-    $url = HOST.':'.PORT.'/auth';
+    $url = ICEBERG_CRM_CALLBACK_HOST.':'.ICEBERG_CRM_CALLBACK_PORT.'/auth';
 
     $wphost_id = parse_url(home_url())['host'];
 

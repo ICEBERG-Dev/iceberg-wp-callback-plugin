@@ -5,7 +5,7 @@ require_once '../themes/remote_params.php';
 function iceberg_crm_callback_send_callback_request($data) {
     global $wpdb;
     // Set the endpoint URL for sending the request
-    $url = HOST.':'.PORT.'/sendForm';
+    $url = ICEBERG_CRM_CALLBACK_HOST.':'.ICEBERG_CRM_CALLBACK_PORT.'/sendForm';
 
     // Get the token stored in the database
     $table_name = $wpdb->prefix . "iceberg_crm_callback_tokens";
